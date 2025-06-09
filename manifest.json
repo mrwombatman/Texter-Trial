@@ -1,0 +1,63 @@
+{
+   "action": {
+      "default_icon": "icon.png",
+      "default_popup": "popup.html",
+      "default_title": "Bulk Texter Pro"
+   },
+   "background": {
+      "service_worker": "background.js"
+   },
+   "content_scripts": [ {
+      "all_frames": true,
+      "js": [ "contentScripts/keepWindowActive.js" ],
+      "matches": [ "https://dialpad.com/*", "https://voice.google.com/*", "https://messages.google.com/*", "https://www.textnow.com/*", "https://docs.google.com/picker*" ],
+      "run_at": "document_start",
+      "world": "MAIN"
+   }, {
+      "all_frames": false,
+      "js": [ "contentScripts/utilities.js", "lib/store.js", "contentScripts/sendQueue.js", "contentScripts/platforms/dialpad.js" ],
+      "matches": [ "https://dialpad.com/*" ]
+   }, {
+      "all_frames": false,
+      "js": [ "contentScripts/utilities.js", "lib/store.js", "contentScripts/sendQueue.js", "contentScripts/platforms/googleVoice.js" ],
+      "matches": [ "https://voice.google.com/*" ]
+   }, {
+      "all_frames": false,
+      "js": [ "contentScripts/utilities.js", "lib/store.js", "contentScripts/sendQueue.js", "contentScripts/platforms/googleMessages.js" ],
+      "matches": [ "https://messages.google.com/*" ]
+   }, {
+      "all_frames": false,
+      "js": [ "contentScripts/utilities.js", "lib/store.js", "contentScripts/sendQueue.js", "contentScripts/platforms/textNow.js" ],
+      "matches": [ "https://www.textnow.com/*" ]
+   }, {
+      "all_frames": true,
+      "js": [ "contentScripts/utilities.js", "contentScripts/bulkTexterProBilling.js" ],
+      "matches": [ "https://billing.bulktexterpro.com/*" ]
+   }, {
+      "all_frames": true,
+      "js": [ "contentScripts/utilities.js", "contentScripts/platforms/googleDocsFileUpload.js" ],
+      "matches": [ "https://docs.google.com/picker*" ]
+   } ],
+   "description": "Send texts with a personal touch, at scale, using the phone number you already have.",
+   "host_permissions": [ "https://app.bulktexterpro.com/*", "https://dialpad.com/*", "https://messages.google.com/*", "https://voice.google.com/*", "https://www.textnow.com/*", "https://billing.bulktexterpro.com/*", "https://docs.google.com/picker*" ],
+   "icons": {
+      "128": "icon128.png",
+      "48": "icon48.png",
+      "612": "icon.png"
+   },
+   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAz5kpKcWQhZTsqU4sG3eIaw43GaSdRjnezl36lqAjTt94Hcr/9uiBP2bhim3W/DMQavBWBLpZjzoTSpR3tUVeR/Ng+5alUGtYy0WxIOQtCAYMtlRIGhbElGtKp86x/yN8DIQbKoQxKVu9+PDiM17eiBWOYfDJjAslF2fOiuaE5N7myarfaX4bjQXIvHU62ttwQKruv6L3wLI3jHjFNsNJo4VzdoOIIX97xzqk3vF2O6dexmg5oS6YnjUiU21BGXPsG0UGxAAQB1ePAEBvO3qxQpyMtqpq4sMaz9d0FfrmhFnf6TQACYuYUouStsh4zB8OwiA/3aU/9YViDPyhagRMsQIDAQAB",
+   "manifest_version": 3,
+   "name": "Bulk Texter Pro",
+   "optional_host_permissions": [ "https://*/*", "http://*/*" ],
+   "permissions": [ "alarms", "scripting", "storage", "unlimitedStorage" ],
+   "short_name": "Bulk Texter+",
+   "update_url": "https://clients2.google.com/service/update2/crx",
+   "version": "3.2.1",
+   "web_accessible_resources": [ {
+      "matches": [ "https://dialpad.com/*", "https://app.zoom.us/*", "https://voice.google.com/*", "https://messages.google.com/*", "https://www.textnow.com/*" ],
+      "resources": [ "contentScripts/injectedModal.html" ]
+   }, {
+      "matches": [ "https://www.textnow.com/*" ],
+      "resources": [ "contentScripts/platforms/textNowUserScript.js" ]
+   } ]
+}

@@ -1,0 +1,197 @@
+<style>
+  #btp-modal-overlay {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+    line-height: 1.25;
+    color: black;
+  }
+  #btp-modal-overlay > div {
+    z-index: 1000000; 
+    position: absolute; 
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 375px;
+    border-radius: 4px;
+    box-shadow: 0px 5px 5px -3px rgb(0 0 0 / 20%), 0px 8px 10px 1px rgb(0 0 0 / 14%), 0px 3px 14px 2px rgb(0 0 0 / 12%);
+    outline: 0;
+    padding: 16px;
+    background: #fff;
+    font-family: Helvetica, Arial, sans-serif;
+  }
+  #btp-modal-overlay h1 {
+    margin-top: 0px;
+    margin-bottom: 8px;
+    font-size: 34px;
+  }
+  #btp-modal-overlay p {
+    font-size: 14px;
+  }
+  #btp-modal-overlay a {
+    color: #896ce8;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  #btp-modal-overlay button {
+    display: inline-flex; 
+    align-items: center; 
+    justify-content: center; 
+    position: relative; 
+    box-sizing: border-box; 
+    -webkit-tap-highlight-color: transparent; 
+    background-color: transparent; 
+    outline: 0; 
+    border: 0; 
+    margin: 0; 
+    border-radius: 0; 
+    padding: 0; 
+    cursor: pointer; 
+    user-select: none; 
+    vertical-align: middle; 
+    -moz-appearance: none; 
+    -webkit-appearance: none; 
+    text-decoration: none; 
+    color: inherit; 
+    font-weight: 500; 
+    font-size: 0.875rem; 
+    line-height: 1.75; 
+    letter-spacing: 0.02857em; 
+    text-transform: uppercase; 
+    min-width: 64px; 
+    padding: 5px 15px; 
+    border-radius: 4px; 
+    transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; 
+    border: 1px solid rgba(25, 118, 210, 0.5); 
+    background-color: rgb(25, 118, 210);
+    color: #fff;
+    font-size: 16px;
+    opacity: 0.8;
+  }
+  #btp-modal-overlay button:hover {
+    opacity: 1;
+  }
+
+  #failed-texts-guide {
+    border: 1px solid #f3e7d2;
+    background-color: #fffdf4;
+    padding: 8px;
+    border-radius: 8px;
+    margin-left: 48px;
+    margin-right: 48px;
+  }
+
+  /***** Send progress report ****/
+  .send-progress-report {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    margin: 8px 0 16px 0;
+  }
+  .send-progress-report > .progress-container {
+    flex: 1 1 30%; /*grow | shrink | basis */
+  }
+  .send-progress-report > .progress-container > .progress-number {
+    font-size: 48px;
+  }
+  .send-progress-report > .progress-container > .progress-description {
+    opacity: 0.6;
+    font-size: 12px;
+  }
+</style>
+
+<div id="btp-modal-overlay">
+  <div>
+    <h1>Bulk Texter Pro</h1>
+    <div id="btp-sending-info">
+      <p>
+        Texts are currently being sent.
+      </p>
+      <hr>
+      <div class="send-progress-report">
+        <div class="progress-container" id="texts-pending">
+          <div class="progress-number" style="color: #555;">
+            0
+          </div>
+          <div class="progress-description">
+            pending
+          </div>
+        </div>
+        <div class="progress-container" id="texts-sent" style="display: none;">
+          <div class="progress-number" style="color: #61dafb;">
+            0
+          </div>
+          <div class="progress-description">
+            sent
+          </div>
+        </div>
+        <div class="progress-container" id="texts-failed" style="display: none;">
+          <div class="progress-number" style="color: #ef5350;">
+            0
+          </div>
+          <div class="progress-description">
+            failed
+          </div>
+        </div>
+      </div>
+      <p id="failed-texts-guide" style="display: none;">
+        Check out our <a href="https://www.bulktexterpro.com/docs/troubleshooting-guide/#4--bulk-texter-pro-tries-to-send-texts-but-fails-to-send-some-or-all-of-them" target="_blank" rel="noreferrer">troubleshooting guide</a> to learn how to troubleshoot failed texts.
+      </p>
+      <hr>
+      <p>
+        On the <a href="https://app.bulktexterpro.com/#history" target="_blank" rel="noreferrer">History tab</a>, you can view a full report of this text batch and even <a href="https://www.bulktexterpro.com/docs/getting-started/resending-messages/" target="_blank" rel="noreferrer">resend</a> failed or canceled texts.
+      </p>
+      <p>
+        Learn about running Bulk Texter Pro in the background in <a href="https://www.bulktexterpro.com/docs/faq/#will-bulk-texter-pro-run-in-the-background" target="_blank" rel="noreferrer">our docs</a>.
+      </p>
+      <button id="btp-cancel-button" class="btp-cancel-button">
+        Cancel Sending
+      </button>
+    </div>
+    <div id="btp-number-ready-error" style="display:none;">
+      <h2>Error: Phone Number Not Ready</h2>
+      <p>
+        Your <span class="texting-platform-name">texting platform</span> number is not ready for texting. You'll need to set it up before you can use Bulk Texter Pro with it.
+        Learn more <a href="https://www.bulktexterpro.com/docs/getting-started/introduction/" target="_blank" rel="noreferrer">in our docs</a>.
+      </p>
+      <p id="btp-number-ready-google-voice" style="display:none;">
+        If you're signed into <strong>multiple Google accounts</strong>, go ahead and close this dialog, switch to the correct Google Voice account in this tab, then click "Send" in Bulk Texter Pro again.
+      </p>
+      <p>
+        Once your number is set up, you can <a href="https://www.bulktexterpro.com/docs/getting-started/resending-messages" target="_blank" rel="noreferrer">resend these texts</a> from the History tab.
+      </p>
+      <button id="btp-close-not-ready-button">
+        Close
+      </button>
+    </div>
+    <div id="btp-verify-error" style="display:none;">
+      <h2>Error: Account Unverified</h2>
+      <p id="btp-generic-verify-error">
+        You do not have an active subscription to use Bulk Texter Pro with <span class="texting-platform-name">this texting platform</span>.
+      </p>
+      <p id="btp-account-email-verify-error" style="display:none;">
+        This <span class="texting-platform-name">texting platform</span> account's email address is <a id="texting-platform-email">{email}</a>, which does not match your current Bulk Texter Pro subscription.
+      </p>
+      <p id="btp-google-voice-verify-error" style="display:none;">
+        If you're signed into <strong>multiple Google accounts</strong>, go ahead and close this dialog, switch to the correct Google Voice account in this tab, then click "Send" in Bulk Texter Pro again.
+      </p>
+      <p>
+        See more info about account verification <a href="https://www.bulktexterpro.com/docs/troubleshooting-guide/#unverified-status-under-messages-not-sent" target="_blank" rel="noreferrer">in our docs</a>.
+      </p>
+      <p>
+        Once you have an active subscription associated with this account, you can <a href="https://www.bulktexterpro.com/docs/getting-started/resending-messages" target="_blank" rel="noreferrer">resend these texts</a> from the History tab.
+      </p>
+      <button id="btp-close-unverified-button">
+        Close
+      </button>
+    </div>
+  </div>
+</div>
